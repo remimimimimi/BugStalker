@@ -81,6 +81,7 @@ serde = { version = "1.0.164", features = ["derive"] }
 toml = "0.8.13"
 home = "0.5.9"
 which = "6.0.1"
+tower-dap = { version = "0.1.0", path = "../tower-dap" }
 
 [dev-dependencies]
 serial_test = "3.0.0"
