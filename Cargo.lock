@@ -253,6 +253,7 @@ version = "0.3.3"
 dependencies = [
  "anyhow",
  "ariadne",
+ "async-trait",
  "bit_field",
  "bytes",
  "capstone",
@@ -283,6 +284,7 @@ dependencies = [
  "rustyline",
  "rustyline-derive",
  "serde",
+ "serde_json",
  "serial_test",
  "signal-hook",
  "smallvec",
@@ -293,6 +295,7 @@ dependencies = [
  "thiserror 1.0.38",
  "thread_db",
  "timeout-readwrite",
+ "tokio",
  "toml",
  "tower-dap",
  "trie-rs",
@@ -1703,6 +1706,26 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "19b17cddbe7ec3f8bc800887bab5e717348c95ea2ca0b1bf0837fb964dc67099"
 
 [[package]]
+name = "pin-project"
+version = "1.1.10"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "677f1add503faace112b9f1373e43e9e054bfdd22ff1a63c1bc485eaec6a6a8a"
+dependencies = [
+ "pin-project-internal",
+]
+
+[[package]]
+name = "pin-project-internal"
+version = "1.1.10"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6e918e4ff8c4549eb882f14b3a4bc8c8bc93de829416eacf579f1207a8fbf861"
+dependencies = [
+ "proc-macro2 1.0.92",
+ "quote 1.0.36",
+ "syn 2.0.104",
+]
+
+[[package]]
 name = "pin-project-lite"
 version = "0.2.16"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2582,6 +2605,10 @@ version = "0.4.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b8fa9be0de6cf49e536ce1851f987bd21a43b771b09473c3549a6c853db37c1c"
 dependencies = [
+ "futures-core",
+ "futures-util",
+ "pin-project",
+ "pin-project-lite",
  "tower-layer",
  "tower-service",
  "tracing",

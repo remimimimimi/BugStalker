@@ -20,6 +20,11 @@ pub struct Args {
     #[arg(default_value_t = false)]
     tui: bool,
 
+    /// Start with terminal ui
+    #[clap(long)]
+    #[arg(default_value_t = false)]
+    dap: bool,
+
     /// Attach to running process PID
     #[clap(long, short)]
     pid: Option<i32>,
@@ -113,6 +118,8 @@ fn main() {
 
     let interface = if args.tui {
         Interface::TUI
+    } else if args.dap {
+        Interface::Dap
     } else {
         Interface::Default
     };

@@ -4,6 +4,7 @@ use crate::debugger::DebuggerBuilder;
 use crate::debugger::process::Child;
 use crate::oracle::builtin;
 use crate::ui::console::TerminalApplication;
+use crate::ui::dap::DapApplication;
 use crate::ui::tui::TuiApplication;
 use crate::ui::{console, tui};
 use anyhow::Context;
@@ -13,6 +14,7 @@ use nix::unistd::Pid;
 /// Interface type.
 pub enum Interface {
     TUI,
+    Dap,
     Default,
 }
 
@@ -29,6 +31,7 @@ pub enum DebugeeSource<'a> {
 pub enum Application {
     TUI(TuiApplication),
     Terminal(TerminalApplication),
+    Dap(DapApplication),
 }
 
 impl Application {
@@ -36,6 +39,10 @@ impl Application {
         match self {
             Application::TUI(tui_app) => tui_app.run(),
             Application::Terminal(term_app) => term_app.run(),
+            Application::Dap(dap_app) => {
+                dap_app.run()?;
+                Ok(ControlFlow::Exit)
+            }
         }
     }
 }
@@ -102,6 +109,15 @@ impl Supervisor {
                     .build(DebuggerBuilder::new().with_oracles(oracles), process)
                     .context("Build debugger")?;
                 Application::TUI(app)
+            }
+            Interface::Dap => {
+                let app = DapApplication::new(
+                    DebuggerBuilder::new().with_oracles(oracles),
+                    process,
+                    stdout_reader.into(),
+                    stderr_reader.into(),
+                );
+                Application::Dap(app)
             }
             Interface::Default => {
                 let app_builder =
